@@ -1,7 +1,9 @@
 /*
  * Rubidium_Monitor by Jonathan Zepp - @DaJMasta
- * Version 1.0 - September 8, 2017
+ * Version 1.01 - September 25, 2017
  * Simple management and serial switching software for my Salvage Rubidium GPSDO project
+ * 
+ * Version 1.01 - Removed old error condition, tweaked values, changed error indicator LED behavior
  * 
   */
   
@@ -31,7 +33,7 @@
 #define centerTempPSU 49.5
 #define centerTempRb 54.5
 #define allowedTempVariation 5.0
-#define maxTempVariation 9.0
+#define maxTempVariation 8.5
 
 #define commandBuffer 16
 
@@ -199,7 +201,7 @@ void checkPPS(){
     if(countDifferential == 0)
       countDifferential = gpsUptime - rbUptime ;
 
-    if((countDifferential + rbUptime) > (gpsUptime + 2) && runMode != 255){
+    /* if((countDifferential + rbUptime) > (gpsUptime + 2) && runMode != 255){
       runMode = 255 ;
       bChangeMode = true ;
       returnTime(unitUptime) ;
@@ -211,7 +213,7 @@ void checkPPS(){
       returnTime(rbUptime) ;
       Serial.println() ;
     }
-    else if((countDifferential + rbUptime) < (gpsUptime - 2)){
+    else */ if((countDifferential + rbUptime) < (gpsUptime - 2)){
       runMode = 1 ;
       bChangeMode = true ;
       gpsUptime = 0 ;
@@ -405,10 +407,12 @@ void evalStatus(){
                 Serial.println() ;
       }
               bChangeMode = false ;
-              bSettlingLED = false ;
-              bStabilizedLED = false ;
-              bBlinkSettling = false ;
-              bBlinkStabilized = false ;
+              bSettlingLED = true ;
+              bStabilizedLED = true ;
+              bBlinkSettling = true ;
+              bBlinkStabilized = true ;
+              bTempLED = true ;
+              bBlinkTemp = true ;
               break ;
     default:  returnTime(unitUptime) ;
               Serial.print(", Invalid run mode: ") ;

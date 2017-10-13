@@ -2,6 +2,10 @@
 Code for an Arduino Pro Micro built into a monitoring board for a Rubidium GPSDO frequency reference
 By: Jonathan Zepp - @DaJMasta - http://medpants.com
 
+
+October 13, 2017 - update v1.01
+- Fixed error condition no longer relevant to the way it monitors that caused failures
+
 September 13, 2017 first release v1.0
 
 Included:
